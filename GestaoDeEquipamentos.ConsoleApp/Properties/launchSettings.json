@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "GestaoDeEquipamentos.ConsoleApp": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51397;http://localhost:51398"
+    }
+  }
+}
