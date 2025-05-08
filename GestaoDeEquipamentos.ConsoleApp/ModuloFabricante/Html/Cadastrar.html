@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Cadastro de Fabricante - Gestão de Equipamentos</title>
+    </head>
+    <body>
+        <h1>Gestão de Equipamentos</h1>
+        
+        <h3>Cadastro de Fabricante</h3>
+
+        <form action="/fabricantes/cadastrar" method="post">
+            <label>Nome do Fabricante</label>
+            <input type="text" name="nome" required />
+            <br />
+            <label>Email do Fabricante</label>
+            <input type="email" name="email" required />
+            <br />
+            <label>Telefone do Fabricante</label>
+            <input type="text" name="telefone" required />
+            <hr />
+
+            <button type="submit">Gravar</button>
+        </form>
+    </body>
+</html>

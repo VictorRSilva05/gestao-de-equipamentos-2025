@@ -15,9 +15,42 @@ class Program
 
         app.MapGet("/", PaginaInicial);
 
+        app.MapGet("/fabricantes/cadastrar", ExibirFormularioCadastroFabricantes);
+        app.MapPost("/fabricantes/cadastrar", CadastrarFabricante);
         app.MapGet("/fabricantes/visualizar", VisualizarFabricantes);
 
         app.Run();
+    }
+
+    static Task CadastrarFabricante(HttpContext context)
+    {
+        ContextoDados contexto = new ContextoDados(true);
+        IRepositorioFabricante repositorioFabricante = new RepositorioFabricanteEmArquivo(contexto);
+
+        string nome = context.Request.Form["nome"].ToString();
+        string email = context.Request.Form["email"].ToString();
+        string telefone = context.Request.Form["telefone"].ToString();
+
+        Fabricante fabricante = new Fabricante(nome,email, telefone);
+
+        repositorioFabricante.CadastrarRegistro(fabricante);
+
+        string conteudo = File.ReadAllText("Compartilhado/Html/Notificacao.html");
+
+        StringBuilder stringBuilder = new StringBuilder(conteudo);
+
+        stringBuilder.Replace("#mensagem#", $"O registro \"{fabricante.Nome}\" foi cadastrado com sucesso");
+
+        string conteudostring = stringBuilder.ToString();
+
+        return context.Response.WriteAsync("Fabricante cadastrado!");
+    }
+
+    static Task ExibirFormularioCadastroFabricantes(HttpContext context)
+    {
+        string conteudo = File.ReadAllText("ModuloFabricante/Html/Cadastrar.html");
+
+        return context.Response.WriteAsync(conteudo);
     }
 
     static Task VisualizarFabricantes(HttpContext context)
@@ -30,6 +63,7 @@ class Program
         StringBuilder stringBuilder = new StringBuilder(conteudo);
         foreach (Fabricante fabricante in repositorioFabricante.SelecionarRegistros())
         {
+            string stringCompleta = stringBuilder.ToString();
             string itemLista = $"<li>{fabricante.ToString()}</li> #fabricante#";
 
             stringBuilder.Replace("#fabricante#", itemLista);
